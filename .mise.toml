@@ -1,0 +1,47 @@
+[env]
+_.path = "/home/seuros/Project/electro/espuarttest/xtensa-lx106-elf/bin"
+IDF_PATH = "/home/seuros/esp/ESP8266_RTOS_SDK"
+
+[tasks.clean]
+description = "Clean build artifacts"
+run = "make clean"
+
+[tasks.build]
+description = "Build LucidConsole"
+run = "make -j4"
+
+[tasks.flash]
+description = "Flash to default port"
+run = "make flash"
+
+[tasks.flash-usb0]
+description = "Flash to USB0"
+run = "make flash ESPPORT=/dev/ttyUSB0"
+
+[tasks.flash-usb1]
+description = "Flash to USB1"
+run = "make flash ESPPORT=/dev/ttyUSB1"
+
+[tasks.monitor]
+description = "Monitor serial output"
+run = """
+python3 -c "
+import serial, sys
+s = serial.Serial('/dev/ttyUSB0', 115200)
+try:
+    while True:
+        if s.in_waiting:
+            sys.stdout.write(s.read(s.in_waiting).decode('utf-8', errors='ignore'))
+            sys.stdout.flush()
+except KeyboardInterrupt:
+    pass
+"
+"""
+
+[tasks.all]
+description = "Clean, build and flash"
+depends = ["clean", "build", "flash"]
+
+[tasks.menuconfig]
+description = "Configure project"
+run = "make menuconfig"
