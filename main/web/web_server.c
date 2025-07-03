@@ -655,7 +655,7 @@ esp_err_t web_server_init(void) {
         return ESP_OK;
     }
     
-    ESP_LOGI(TAG, "Starting HTTP server...");
+    // Starting HTTP server
     
     // Initialize SSE mutex
     if (!sse_mutex) {

@@ -73,7 +73,7 @@ static void wifi_event_handler(void* arg, esp_event_base_t event_base,
                 strcpy(current_status.ip_address, "0.0.0.0");
                 
                 // Try to reconnect (simple strategy)
-                ESP_LOGI(TAG, "Attempting to reconnect...");
+                // Attempt to reconnect
                 esp_wifi_connect();
                 break;
             }
@@ -127,7 +127,7 @@ esp_err_t wifi_manager_get_mac4(char* mac4_str) {
 }
 
 esp_err_t wifi_manager_start_ap(void) {
-    ESP_LOGI(TAG, "Starting WiFi AP mode...");
+    // Starting WiFi AP mode
     
     // Get MAC for SSID
     char mac4[5];
@@ -288,7 +288,7 @@ esp_err_t wifi_manager_connect_sta(const char* ssid, const char* password) {
 }
 
 esp_err_t wifi_manager_reset_to_ap(void) {
-    ESP_LOGI(TAG, "Resetting to AP mode...");
+    // Resetting to AP mode
     
     esp_err_t ret = esp_wifi_stop();
     if (ret != ESP_OK) {
@@ -314,7 +314,7 @@ esp_err_t wifi_manager_init(void) {
         return ESP_OK;
     }
     
-    ESP_LOGI(TAG, "Initializing WiFi manager...");
+    // Initialize WiFi manager
     
     // Initialize tcpip adapter for ESP8266
     tcpip_adapter_init();
@@ -350,7 +350,7 @@ esp_err_t wifi_manager_init(void) {
     
     // Start in AP mode by default, or try STA if credentials exist
     if (current_status.provisioned) {
-        ESP_LOGI(TAG, "Found stored WiFi credentials, attempting STA connection...");
+        ESP_LOGI(TAG, "Found stored WiFi credentials");
         ret = wifi_manager_connect_sta(NULL, NULL);
         if (ret != ESP_OK) {
             ESP_LOGW(TAG, "STA connection failed, falling back to AP mode");

@@ -151,7 +151,7 @@ static void status_logging_task(void* pvParameters) {
 #endif
 
 void app_main(void) {
-    ESP_LOGI(TAG, "LucidConsole starting...");
+    // Starting LucidConsole
     
     // Initialize NVS
     esp_err_t ret = nvs_flash_init();

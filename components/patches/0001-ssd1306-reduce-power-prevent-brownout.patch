@@ -1,0 +1,48 @@
+From: LucidConsole Maintainers
+Date: Fri, 16 Aug 2024 12:00:00 +0000
+Subject: [PATCH] ssd1306: Reduce power consumption to prevent ESP8266 brownout
+
+The original SSD1306 initialization causes boot loops on ESP8266 due to:
+1. High contrast setting (0x9f) draws too much current
+2. ssd1306_set_whole_display_lighting(true) turns on ALL pixels at once,
+   creating instant power surge that triggers brownout reset
+
+This patch reduces contrast to 0x7f and disables whole display lighting
+during initialization, fixing the boot loop issue.
+
+Signed-off-by: LucidConsole Team
+---
+ ssd1306/ssd1306.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/ssd1306/ssd1306.c b/ssd1306/ssd1306.c
+index 1234567..abcdefg 100644
+--- a/ssd1306/ssd1306.c
++++ b/ssd1306/ssd1306.c
+@@ -147,10 +147,10 @@ bool ssd1306_init(const ssd1306_t *dev)
+                 !ssd1306_set_memory_addressing_mode(dev, SSD1306_ADDR_MODE_PAGE) &&
+                 !ssd1306_set_segment_remapping_enabled(dev, true)                &&
+                 !ssd1306_set_scan_direction_inverted(dev, true)                  &&
+-                !ssd1306_set_contrast(dev, 0x9f)                                 &&
++                !ssd1306_set_contrast(dev, 0x7f)                                 &&
+                 !ssd1306_set_precharge_period(dev, 0x22)                         &&
+                 !ssd1306_set_deseltct_level(dev, 0x20)                           &&
+-                !ssd1306_set_whole_display_lighting(dev, true)                   &&
++                !ssd1306_set_whole_display_lighting(dev, false)                  &&
+                 !ssd1306_set_inversion(dev, SSD1306_DISPLAY_NORMAL)              &&
+                 !ssd1306_display_on(dev, true);
+     else
+@@ -167,10 +167,10 @@ bool ssd1306_init(const ssd1306_t *dev)
+                 !ssd1306_set_memory_addressing_mode(dev, SSD1306_ADDR_MODE_PAGE) &&
+                 !ssd1306_set_segment_remapping_enabled(dev, false)               &&
+                 !ssd1306_set_scan_direction_inverted(dev, false)                 &&
+-                !ssd1306_set_contrast(dev, 0x9f)                                 &&
++                !ssd1306_set_contrast(dev, 0x7f)                                 &&
+                 !ssd1306_set_precharge_period(dev, 0x22)                         &&
+                 !ssd1306_set_deseltct_level(dev, 0x20)                           &&
+-                !ssd1306_set_whole_display_lighting(dev, true)                   &&
++                !ssd1306_set_whole_display_lighting(dev, false)                  &&
+                 !ssd1306_set_inversion(dev, SSD1306_DISPLAY_NORMAL)              &&
+                 !ssd1306_display_on(dev, true);
+-- 
+2.34.1

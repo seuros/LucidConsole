@@ -130,7 +130,7 @@ static const uint8_t font_6x8[95][6] = {
  */
 // Test pattern function to isolate garbling
 esp_err_t oled_render_test_pattern(void) {
-    ESP_LOGI(TAG, "Rendering test pattern to isolate font issues...");
+    // Render test pattern to isolate font issues
     esp_err_t ret = oled_clear_screen();
     if (ret != ESP_OK) return ret;
     
@@ -329,7 +329,7 @@ static void ui_task(void* pvParameters) {
 // Public API Implementation
 
 esp_err_t oled_render_init(void) {
-    ESP_LOGI(TAG, "Initializing OLED render system...");
+    // Initialize OLED render system
     ESP_LOGI(TAG, "Queue size: %d commands", RENDER_QUEUE_SIZE);
     ESP_LOGI(TAG, "Refresh rate: %d ms (%d FPS)", UI_REFRESH_RATE_MS, 1000/UI_REFRESH_RATE_MS);
     
@@ -350,7 +350,7 @@ esp_err_t oled_render_init(void) {
         return ESP_ERR_NO_MEM;
     }
     
-    ESP_LOGI(TAG, "✅ OLED render system initialized");
+    ESP_LOGI(TAG, "OLED render system initialized");
     ESP_LOGI(TAG, "UI task created with priority %d, stack %d bytes", 
              UI_TASK_PRIORITY, UI_TASK_STACK_SIZE);
     

@@ -112,6 +112,27 @@ curl -X POST -H "X-Auth-Key: lucid" \
 
 ---
 
+## 📦 Initial Setup (Linux/macOS Terminal Required)
+
+> **"If you're going to Lucid, you better be in the dark"** - Terminal development only.
+
+**Supported OS:** Linux, macOS  
+**Windows users:** Use WSL2 or find another project
+
+After cloning this repository, run:
+
+```bash
+# Setup submodules with Linux-style patches
+./scripts/setup-submodules.sh
+
+# Or manually (for those who like pain):
+git submodule init
+git submodule update
+make patch-components  # Applies ESP8266 compatibility patches
+```
+
+The patches fix critical boot loop issues in the upstream SSD1306 library using the same patching methodology as the Linux kernel. No GUIs, no IDEs, just you and the terminal.
+
 ## 🎯 Quick Deployment Guide
 
 ### **Emergency Airlock Debugging (2154 Standard Procedure)**

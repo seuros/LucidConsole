@@ -1,5 +1,11 @@
 # Contributing to LucidConsole
 
+> **"If you're going to Lucid, you better be in the dark"** - Terminal development only.
+
+**Required Environment:** Linux or macOS with a real terminal  
+**Windows users:** WSL2 or contribute to something else  
+**IDE users:** `vim`, `emacs`, or `nano` - pick your weapon  
+
 Welcome! This project is designed to teach open source contribution and embedded development. **One board per person** - let's share the learning.
 
 ## Philosophy

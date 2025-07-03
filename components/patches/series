@@ -1,0 +1,5 @@
+# Patch series file (quilt/Linux kernel style)
+# List patches in order of application
+
+# Fix ESP8266 boot loop issue - reduce power consumption
+0001-ssd1306-reduce-power-prevent-brownout.patch

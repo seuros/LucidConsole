@@ -53,7 +53,7 @@ esp_err_t oled_framebuffer_init(void) {
         return ESP_FAIL;
     }
     
-    ESP_LOGI(TAG, "✅ SSD1306 framebuffer system initialized");
+    ESP_LOGI(TAG, "SSD1306 framebuffer system initialized");
     return ESP_OK;
 }
 

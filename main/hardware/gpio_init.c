@@ -14,8 +14,8 @@ static const char* TAG = "GPIO_INIT";
 esp_err_t gpio_early_init(void) {
     ESP_LOGI(TAG, "=== Early GPIO Initialization ===");
     
-    // Step 1: Configure GPIO16 (RTC domain) for OLED power control
-    ESP_LOGI(TAG, "Step 1: Configure GPIO16 (RTC domain) for OLED power...");
+    // Configure GPIO16 (RTC domain) for OLED power control
+    ESP_LOGI(TAG, "Configuring GPIO16 for OLED power control");
     gpio_config_t power_conf = {
         .pin_bit_mask = (1ULL << GPIO_OLED_POWER),
         .mode = GPIO_MODE_OUTPUT,
@@ -34,41 +34,37 @@ esp_err_t gpio_early_init(void) {
     gpio_set_level(GPIO_OLED_POWER, 1);
     ESP_LOGI(TAG, "GPIO16 set to OFF (1) - OLED power disabled during init");
     
-    // Step 2: I2C pins will be configured by hardware I2C driver
-    ESP_LOGI(TAG, "Step 2: I2C pins (GPIO%d=SDA, GPIO%d=SCL) will be configured by hardware driver", 
+    // I2C pins will be configured by hardware I2C driver
+    ESP_LOGI(TAG, "I2C pins (GPIO%d=SDA, GPIO%d=SCL) will be configured by hardware driver", 
              GPIO_I2C_SDA, GPIO_I2C_SCL);
     
-    ESP_LOGI(TAG, "✅ Early GPIO initialization complete");
+    ESP_LOGI(TAG, "Early GPIO initialization complete");
     ESP_LOGI(TAG, "=== I2C PINS RESERVED FOR HARDWARE DRIVER ===");
     
     return ESP_OK;
 }
 
 esp_err_t gpio_oled_power_on(void) {
-    ESP_LOGI(TAG, "Turning OLED power ON...");
-    
     // GPIO16 = 0 means OLED power ON for this board design
     gpio_set_level(GPIO_OLED_POWER, 0);
     
     // Power stabilization delay - critical for OLED init
     vTaskDelay(pdMS_TO_TICKS(50));
     
-    ESP_LOGI(TAG, "✅ OLED power ON (GPIO16=0) - power rail stabilized");
+    ESP_LOGI(TAG, "OLED power ON (GPIO16=0) - power rail stabilized");
     return ESP_OK;
 }
 
 esp_err_t gpio_oled_power_off(void) {
-    ESP_LOGI(TAG, "Turning OLED power OFF...");
-    
     // GPIO16 = 1 means OLED power OFF for this board design  
     gpio_set_level(GPIO_OLED_POWER, 1);
     
-    ESP_LOGI(TAG, "✅ OLED power OFF (GPIO16=1)");
+    ESP_LOGI(TAG, "OLED power OFF (GPIO16=1)");
     return ESP_OK;
 }
 
 esp_err_t gpio_boot_button_init(void) {
-    ESP_LOGI(TAG, "Initializing boot button (GPIO0)...");
+    // Initialize boot button (GPIO0)
     ESP_LOGW(TAG, "WARNING: GPIO0 is bootstrap pin - only call after WiFi init!");
     
     gpio_config_t button_conf = {
@@ -85,7 +81,7 @@ esp_err_t gpio_boot_button_init(void) {
         return ret;
     }
     
-    ESP_LOGI(TAG, "✅ Boot button configured (GPIO0) with pullup");
+    ESP_LOGI(TAG, "Boot button configured (GPIO0) with pullup");
     return ESP_OK;
 }
 

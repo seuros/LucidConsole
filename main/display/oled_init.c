@@ -73,7 +73,7 @@ esp_err_t oled_send_data(uint8_t data_byte) {
 }
 
 static esp_err_t oled_send_init_sequence(void) {
-    ESP_LOGI(TAG, "Sending SSD1306 initialization sequence (Arduino-style)...");
+    // Send SSD1306 initialization sequence (Arduino-style)
     
     // Arduino Adafruit_SSD1306 initialization sequence for 128x64
     esp_err_t ret = ESP_OK;
@@ -160,37 +160,37 @@ static esp_err_t oled_send_init_sequence(void) {
     ret = oled_send_command(SSD1306_DISPLAYON);
     if (ret != ESP_OK) return ret;
     
-    ESP_LOGI(TAG, "✅ Arduino-style SSD1306 initialization complete");
+    ESP_LOGI(TAG, "Arduino-style SSD1306 initialization complete");
     return ESP_OK;
 }
 
 esp_err_t oled_test_hardware(void) {
     ESP_LOGI(TAG, "=== OLED Hardware Test ===");
     
-    // Step 1: Turn on OLED power
-    ESP_LOGI(TAG, "Step 1: Turn on OLED power...");
+    // Turn on OLED power
+    ESP_LOGI(TAG, "Powering on OLED display");
     esp_err_t ret = gpio_oled_power_on();
     if (ret != ESP_OK) {
         ESP_LOGE(TAG, "Failed to turn on OLED power");
         return ret;
     }
     
-    // Step 2: Test command sending (hardware I2C handles locking internally)
-    ESP_LOGI(TAG, "Step 2: Test command sending...");
+    // Test command sending (hardware I2C handles locking internally)
+    ESP_LOGI(TAG, "Testing I2C command interface");
     ret = oled_send_command(SSD1306_DISPLAYOFF);
     if (ret != ESP_OK) {
-        ESP_LOGE(TAG, "❌ OLED not detected or command failed");
+        ESP_LOGE(TAG, "OLED not detected or command failed");
         ESP_LOGE(TAG, "Check connections: SDA=GPIO%d, SCL=GPIO%d, Power=GPIO%d", 
                  I2C_MASTER_SDA_IO, I2C_MASTER_SCL_IO, GPIO_OLED_POWER);
         return ret;
     }
     
-    ESP_LOGI(TAG, "✅ OLED hardware test passed");
+    ESP_LOGI(TAG, "OLED hardware test passed");
     return ESP_OK;
 }
 
 esp_err_t oled_clear_screen(void) {
-    ESP_LOGI(TAG, "Clearing OLED screen...");
+    // Clear OLED screen
     
     // Set column address range (0 to 127)
     esp_err_t ret = oled_send_command(0x21);  // Set column address
@@ -225,7 +225,7 @@ esp_err_t oled_clear_screen(void) {
     }
     
     if (ret == ESP_OK) {
-        ESP_LOGI(TAG, "✅ OLED screen cleared and reset to horizontal mode");
+        ESP_LOGI(TAG, "OLED screen cleared and reset to horizontal mode");
     } else {
         ESP_LOGE(TAG, "Failed to clear OLED screen: %s", esp_err_to_name(ret));
     }
@@ -246,28 +246,28 @@ esp_err_t oled_init(void) {
     ESP_LOGI(TAG, "Pins: SDA=GPIO%d, SCL=GPIO%d, Power=GPIO%d", 
              I2C_MASTER_SDA_IO, I2C_MASTER_SCL_IO, GPIO_OLED_POWER);
     
-    // Step 1: Test hardware
+    // Test hardware
     esp_err_t ret = oled_test_hardware();
     if (ret != ESP_OK) {
-        ESP_LOGE(TAG, "❌ OLED hardware test failed");
+        ESP_LOGE(TAG, "OLED hardware test failed");
         return ret;
     }
     
-    // Step 2: Send initialization sequence
+    // Send initialization sequence
     ret = oled_send_init_sequence();
     if (ret != ESP_OK) {
-        ESP_LOGE(TAG, "❌ OLED initialization sequence failed");
+        ESP_LOGE(TAG, "OLED initialization sequence failed");
         return ret;
     }
     
-    // Step 3: Clear screen
+    // Clear screen
     ret = oled_clear_screen();
     if (ret != ESP_OK) {
-        ESP_LOGE(TAG, "❌ Failed to clear OLED screen");
+        ESP_LOGE(TAG, "Failed to clear OLED screen");
         return ret;
     }
     
-    ESP_LOGI(TAG, "✅ OLED Display Initialization Complete");
+    ESP_LOGI(TAG, "OLED Display Initialization Complete");
     ESP_LOGI(TAG, "Display is ON and ready for rendering");
     
     return ESP_OK;

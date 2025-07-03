@@ -1,0 +1,5 @@
+# Quilt configuration for component patching
+QUILT_PATCHES=components/patches
+QUILT_NO_DIFF_INDEX=1
+QUILT_NO_DIFF_TIMESTAMPS=1
+QUILT_REFRESH_ARGS="-p ab --no-timestamps --no-index"

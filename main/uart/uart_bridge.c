@@ -123,7 +123,7 @@ esp_err_t uart_bridge_init(const uart_bridge_config_t* config) {
         return ESP_OK;
     }
     
-    ESP_LOGI(TAG, "Initializing UART bridge...");
+    // Initialize UART bridge
     
     // Set default configuration if none provided
     if (config) {
@@ -176,7 +176,7 @@ esp_err_t uart_bridge_init(const uart_bridge_config_t* config) {
     bridge_stats.current_baud = current_config.baud_rate;
     
     bridge_initialized = true;
-    ESP_LOGI(TAG, "✅ UART bridge initialized (baud: %u, pins: TX=%d RX=%d)", 
+    ESP_LOGI(TAG, "UART bridge initialized (baud: %u, pins: TX=%d RX=%d)", 
              current_config.baud_rate, LUCIDUART_TX_PIN, LUCIDUART_RX_PIN);
     
     return ESP_OK;
@@ -193,7 +193,7 @@ esp_err_t uart_bridge_start(void) {
         return ESP_OK;
     }
     
-    ESP_LOGI(TAG, "Starting UART bridge...");
+    // Start UART bridge
     
     bridge_active = true;
     bridge_stats.bridge_active = true;
@@ -213,7 +213,7 @@ esp_err_t uart_bridge_start(void) {
         return ESP_FAIL;
     }
     
-    ESP_LOGI(TAG, "✅ UART bridge started - ready for data transfer");
+    ESP_LOGI(TAG, "UART bridge started - ready for data transfer");
     return ESP_OK;
 }
 
@@ -223,7 +223,7 @@ esp_err_t uart_bridge_stop(void) {
         return ESP_OK;
     }
     
-    ESP_LOGI(TAG, "Stopping UART bridge...");
+    // Stop UART bridge
     
     bridge_active = false;
     bridge_stats.bridge_active = false;
@@ -234,7 +234,7 @@ esp_err_t uart_bridge_stop(void) {
         uart_rx_task_handle = NULL;
     }
     
-    ESP_LOGI(TAG, "✅ UART bridge stopped");
+    ESP_LOGI(TAG, "UART bridge stopped");
     return ESP_OK;
 }
 
@@ -247,7 +247,7 @@ esp_err_t uart_bridge_deinit(void) {
     // Stop bridge if active
     uart_bridge_stop();
     
-    ESP_LOGI(TAG, "Deinitializing UART bridge...");
+    // Deinitialize UART bridge
     
     // Delete UART driver
     esp_err_t ret = uart_driver_delete(LUCIDUART_UART_NUM);
@@ -259,7 +259,7 @@ esp_err_t uart_bridge_deinit(void) {
     rx_data_callback = NULL;
     bridge_initialized = false;
     
-    ESP_LOGI(TAG, "✅ UART bridge deinitialized");
+    ESP_LOGI(TAG, "UART bridge deinitialized");
     return ESP_OK;
 }
 
@@ -346,7 +346,7 @@ esp_err_t uart_bridge_update_config(const uart_bridge_config_t* config) {
         ret = uart_bridge_start();
     }
     
-    ESP_LOGI(TAG, "✅ UART configuration updated");
+    ESP_LOGI(TAG, "UART configuration updated");
     return ret;
 }
 

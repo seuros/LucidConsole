@@ -18,17 +18,17 @@ static const char* TAG = "I2C_HW";
 static SemaphoreHandle_t i2c_mutex = NULL;
 
 esp_err_t i2c_hw_bus_init(void) {
-    ESP_LOGI(TAG, "Initializing ESP8266 hardware I2C bus...");
+    // Initialize ESP8266 hardware I2C bus
     
     // CRITICAL: De-initialize HSPI to free GPIO12/14 for I2C use
-    ESP_LOGI(TAG, "De-initializing HSPI to free GPIO12/14...");
+    // De-initialize HSPI to free GPIO12/14
     esp_err_t ret = spi_deinit(HSPI_HOST);
     if (ret != ESP_OK && ret != ESP_ERR_INVALID_STATE) {
         ESP_LOGW(TAG, "HSPI deinit warning: %s", esp_err_to_name(ret));
     }
     
     // CRITICAL: Re-mux GPIO12/14 from HSPI pins to GPIO mode
-    ESP_LOGI(TAG, "Re-muxing GPIO12/14 from HSPI to GPIO mode...");
+    // Re-mux GPIO12/14 from HSPI to GPIO mode
     PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTDI_U, FUNC_GPIO12);  // GPIO12 to GPIO mode
     PIN_FUNC_SELECT(PERIPHS_IO_MUX_MTMS_U, FUNC_GPIO14);  // GPIO14 to GPIO mode
     vTaskDelay(pdMS_TO_TICKS(10)); // Small delay for pin mux to settle
@@ -66,7 +66,7 @@ esp_err_t i2c_hw_bus_init(void) {
         return ESP_ERR_NO_MEM;
     }
     
-    ESP_LOGI(TAG, "✅ I2C hardware bus initialized");
+    ESP_LOGI(TAG, "I2C hardware bus initialized");
     ESP_LOGI(TAG, "   - SDA: GPIO%d (with pullup)", I2C_MASTER_SDA_IO);
     ESP_LOGI(TAG, "   - SCL: GPIO%d (with pullup)", I2C_MASTER_SCL_IO);
     ESP_LOGI(TAG, "   - Frequency: %d Hz", I2C_MASTER_FREQ_HZ);
@@ -139,7 +139,7 @@ esp_err_t i2c_hw_read_data(uint8_t device_addr, uint8_t reg_addr, uint8_t *data,
 }
 
 int i2c_hw_scan_devices(void) {
-    ESP_LOGI(TAG, "Scanning I2C bus for devices...");
+    ESP_LOGI(TAG, "I2C bus scan started");
     
     int devices_found = 0;
     esp_err_t ret;
